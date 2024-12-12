@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -9,6 +10,10 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+final emailController = TextEditingController();
+final passwordController = TextEditingController();
+
+//  final _passwordController = TextEditingController();
 class _LoginPageState extends State<LoginPage> {
   var isCreatingAccount = false;
 
@@ -24,24 +29,47 @@ class _LoginPageState extends State<LoginPage> {
               Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
               SizedBox(height: 20),
               TextField(
+                controller: emailController,
+                onTap: () {},
                 decoration: InputDecoration(
-                  hintText: 'email',
+                  prefixIcon: Icon(Icons.email),
+                  hintText: 'name@example.com',
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 20),
               TextField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.lock_outline_rounded),
                   hintText: 'password',
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: () {
-                  //obsluga authentication
-                },
-                child: Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
-              ),
+              if (isCreatingAccount == false)
+                ElevatedButton(
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    ); //obsluga authentication
+                  },
+                  child: Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
+                ),
+              if (isCreatingAccount == true)
+                ElevatedButton(
+                  onPressed: () async {
+                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    ); //obsluga authentication
+                  },
+                  child: Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
+                ),
               if (isCreatingAccount == false)
                 TextButton(
                   onPressed: () {
