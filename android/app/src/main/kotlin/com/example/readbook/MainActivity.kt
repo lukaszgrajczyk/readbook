@@ -1,4 +1,4 @@
-package com.example.readbook
+package com.lukaszgrajczyk.readbook
 
 import io.flutter.embedding.android.FlutterActivity
 
