@@ -13,10 +13,9 @@ class LoginPage extends StatefulWidget {
 final emailController = TextEditingController();
 final passwordController = TextEditingController();
 
-//  final _passwordController = TextEditingController();
 class _LoginPageState extends State<LoginPage> {
   var isCreatingAccount = false;
-
+  var errorMessage = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 20),
               TextField(
                 controller: emailController,
-                onTap: () {},
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.email),
                   hintText: 'name@example.com',
@@ -50,13 +48,21 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(height: 40),
+              Text(errorMessage),
+              SizedBox(height: 20),
               if (isCreatingAccount == false)
                 ElevatedButton(
                   onPressed: () async {
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: emailController.text,
-                      password: passwordController.text,
-                    ); //obsluga authentication
+                    try {
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
+                    } catch (error) {
+                      setState(() {
+                        errorMessage = error.toString();
+                      });
+                    }
                   },
                   child: Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
                 ),
