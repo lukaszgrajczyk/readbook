@@ -2,20 +2,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({
+  LoginPage({
     super.key,
   });
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
-final emailController = TextEditingController();
-final passwordController = TextEditingController();
-
 class _LoginPageState extends State<LoginPage> {
   var isCreatingAccount = false;
   var errorMessage = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,10 +26,11 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
+              Text('login'),
+              // Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
               SizedBox(height: 20),
               TextField(
-                controller: emailController,
+                controller: widget.emailController,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.email),
                   hintText: 'name@example.com',
@@ -38,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 20),
               TextField(
-                controller: passwordController,
+                controller: widget.passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.lock_outline_rounded),
@@ -50,13 +52,36 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 40),
               Text(errorMessage),
               SizedBox(height: 20),
+
+              //Obsługa błędów do poprawy -zamieszać z ifami elsami i {} ...[]
+
               if (isCreatingAccount == false)
                 ElevatedButton(
                   onPressed: () async {
                     try {
                       await FirebaseAuth.instance.signInWithEmailAndPassword(
-                        email: emailController.text,
-                        password: passwordController.text,
+                        email: widget.emailController.text,
+                        password: widget.passwordController.text,
+                      );
+                    } catch (error) {
+                      setState(() {
+                        errorMessage = error.toString();
+                      });
+                    }
+                  },
+                  child: Text(
+                    isCreatingAccount ? 'Zarejestruj' : 'Zaloguj',
+                  ),
+                ),
+
+              if (isCreatingAccount == true)
+                ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      await FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                        email: widget.emailController.text,
+                        password: widget.passwordController.text,
                       );
                     } catch (error) {
                       setState(() {
@@ -66,27 +91,21 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
                 ),
-              if (isCreatingAccount == true)
-                ElevatedButton(
-                  onPressed: () async {
-                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                      email: emailController.text,
-                      password: passwordController.text,
-                    ); //obsluga authentication
-                  },
-                  child: Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
-                ),
+
               if (isCreatingAccount == false)
                 TextButton(
                   onPressed: () {
                     {
-                      setState(() {
-                        isCreatingAccount = true;
-                      });
+                      setState(
+                        () {
+                          isCreatingAccount = true;
+                        },
+                      );
                     }
                   },
                   child: Text('utwórz konto'),
                 ),
+
               if (isCreatingAccount == true)
                 TextButton(
                   onPressed: () {

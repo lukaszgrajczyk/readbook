@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:readbook/login_page.dart';
+import 'package:readbook/AddBookRevew/add_review_page_content.dart';
+import 'package:readbook/BookReview/book_review_page.content.dart';
+import 'package:readbook/MyAccount/my_account_page_content.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -22,45 +24,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('hej'),
-              ],
-            ),
-          );
+          return BookReview();
         }
         return Builder(builder: (context) {
           if (currentIndex == 1) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('hej 2'),
-                ],
-              ),
-            );
+            return AddBookReview();
           }
           return Builder(builder: (context) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('jesteś zalogowany jako ${widget.user.email}'),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await FirebaseAuth.instance.signOut();
-
-                      emailController.clear();
-                      passwordController.clear();
-                    },
-                    child: Text('wyloguj'),
-                  ),
-                ],
-              ),
-            );
+            return MyAccount(widget: widget);
           });
         });
       }),

@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:readbook/firebase_options.dart';
-import 'package:readbook/home_page.dart';
-import 'package:readbook/login_page.dart';
+import 'package:readbook/HomePage/home_page.dart';
+import 'package:readbook/LoginPage/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +44,7 @@ class RootPage extends StatelessWidget {
             return LoginPage();
           }
 
-          return HomePage(user: user); //user: email
+          return HomePage(user: user);
         });
   }
 }
