@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
             return AddBookReview();
           }
           return Builder(builder: (context) {
-            return MyAccount(widget: widget);
+            return MyAccount(email: widget.user.email);
           });
         });
       }),

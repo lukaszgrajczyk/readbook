@@ -2,15 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 
-import 'package:readbook/HomePage/home_page.dart';
-
 class MyAccount extends StatelessWidget {
-  const MyAccount({
-    super.key,
-    required this.widget,
-  });
+  const MyAccount({super.key, required this.email});
 
-  final HomePage widget;
+  final String? email;
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +13,11 @@ class MyAccount extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('jesteś zalogowany jako ${widget.user.email}'),
+          Text('jesteś zalogowany jako $email'),
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
-
-              //   emailController.clear();
-              // passwordController.clear();
             },
             child: Text('wyloguj'),
           ),
