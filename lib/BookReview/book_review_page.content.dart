@@ -9,7 +9,10 @@ class BookReview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: FirebaseFirestore.instance.collection('books').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('books')
+          .orderBy('rating', descending: true)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
