@@ -1,13 +1,22 @@
+import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class AddBookReview extends StatelessWidget {
-  AddBookReview({
+class AddBookReview extends StatefulWidget {
+  const AddBookReview({
     super.key,
+    required this.onSave,
   });
 
-  final bookTitle = TextEditingController();
-  final bookAuthor = TextEditingController();
-  final rating = 5.5;
+  final Function() onSave;
+
+  @override
+  State<AddBookReview> createState() => _AddBookReviewState();
+}
+
+class _AddBookReviewState extends State<AddBookReview> {
+  var bookTitle = '';
+  var bookAuthor = '';
+  double rating = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +27,13 @@ class AddBookReview extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: bookAuthor,
+              onChanged: (newValue) {
+                setState(
+                  () {
+                    bookAuthor = newValue;
+                  },
+                );
+              },
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.person_add_alt_1_rounded),
                 hintText: 'book Author',
@@ -28,7 +43,13 @@ class AddBookReview extends StatelessWidget {
             ),
             SizedBox(height: 10),
             TextField(
-              controller: bookTitle,
+              onChanged: (newValue) {
+                setState(
+                  () {
+                    bookTitle = newValue;
+                  },
+                );
+              },
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.title_rounded),
                 hintText: 'Book title',
@@ -37,22 +58,39 @@ class AddBookReview extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30),
-            Text('"tu będzie slider"'),
+            Slider(
+              value: rating,
+              onChanged: (newRating) {
+                setState(
+                  () {
+                    rating = newRating;
+                  },
+                );
+              },
+              label: rating.toString(),
+              activeColor: Color.fromARGB(222, 37, 174, 216),
+              inactiveColor: Color.fromARGB(222, 223, 185, 223),
+              min: 0.0,
+              max: 6.0,
+              divisions: 6,
+            ),
             SizedBox(height: 50),
             ElevatedButton(
-              onPressed: () {
-                // final document = snapshot.data!.docs;
+              onPressed: () async {
+                await FirebaseFirestore.instance.collection('books').add(
+                  {
+                    'author': bookAuthor,
+                    'title': bookTitle,
+                    'rating': rating,
+                  },
+                );
+                widget.onSave();
               },
               child: Text('dodaj opinie'),
-            ),
+            )
           ],
         ),
       ),
     );
   }
 }
-
-//  await FirebaseFirestore.instance.collection('books').add(
-//                   'author':bookAuthor,
-//                   'title': bookTitle,
-//                   'rating': rating

@@ -28,7 +28,15 @@ class _HomePageState extends State<HomePage> {
         }
         return Builder(builder: (context) {
           if (currentIndex == 1) {
-            return AddBookReview();
+            return AddBookReview(
+              onSave: () {
+                setState(
+                  () {
+                    currentIndex = 0;
+                  },
+                );
+              },
+            );
           }
           return Builder(builder: (context) {
             return MyAccount(email: widget.user.email);

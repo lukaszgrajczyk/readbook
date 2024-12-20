@@ -11,16 +11,19 @@ class BookReview extends StatelessWidget {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: FirebaseFirestore.instance.collection('books').snapshots(),
       builder: (context, snapshot) {
-//IFy
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         }
         if (snapshot.hasError) {
-          return Center(child: Text("something went wrong"));
+          return Center(
+            child: Text("something went wrong"),
+          );
         }
 
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Center(child: Text('Brak danych'));
+          return Center(
+            child: Text('Brak danych'),
+          );
         }
 
         final documents = snapshot.data!.docs;
