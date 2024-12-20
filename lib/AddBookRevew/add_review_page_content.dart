@@ -68,7 +68,7 @@ class _AddBookReviewState extends State<AddBookReview> {
                 );
               },
               label: rating.toString(),
-              activeColor: Color.fromARGB(222, 37, 174, 216),
+              activeColor: Color.fromARGB(222, 187, 21, 21),
               inactiveColor: Color.fromARGB(222, 223, 185, 223),
               min: 0.0,
               max: 6.0,
@@ -76,16 +76,18 @@ class _AddBookReviewState extends State<AddBookReview> {
             ),
             SizedBox(height: 50),
             ElevatedButton(
-              onPressed: () async {
-                await FirebaseFirestore.instance.collection('books').add(
-                  {
-                    'author': bookAuthor,
-                    'title': bookTitle,
-                    'rating': rating,
-                  },
-                );
-                widget.onSave();
-              },
+              onPressed: bookAuthor.isEmpty || bookTitle.isEmpty
+                  ? null
+                  : () async {
+                      await FirebaseFirestore.instance.collection('books').add(
+                        {
+                          'author': bookAuthor,
+                          'title': bookTitle,
+                          'rating': rating,
+                        },
+                      );
+                      widget.onSave();
+                    },
               child: Text('dodaj opinie'),
             )
           ],

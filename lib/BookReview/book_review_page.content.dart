@@ -30,18 +30,21 @@ class BookReview extends StatelessWidget {
 
         return Padding(
           padding: const EdgeInsets.all(10.0),
-          child: ListView(children: [
-            for (final document in documents) ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(document['author']),
-                  Text(document['rating'].toString()),
-                ],
-              ),
-              Text(document['title']),
+          child: ListView(
+            children: [
+              for (final document in documents) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(document['author']),
+                    Text(document['rating'].toString()),
+                  ],
+                ),
+                Text(document['title']),
+                SizedBox(height: 20),
+              ],
             ],
-          ]),
+          ),
         );
       },
     );
