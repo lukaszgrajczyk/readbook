@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 
 class BookReview extends StatelessWidget {
@@ -29,21 +30,51 @@ class BookReview extends StatelessWidget {
           );
         }
 
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text('Loading');
+        }
+
         final documents = snapshot.data!.docs;
 
         return Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(15.0),
           child: ListView(
             children: [
               for (final document in documents) ...[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(document['author']),
-                    Text(document['rating'].toString()),
-                  ],
+                Dismissible(
+                  key: ValueKey(document.id),
+                  direction: DismissDirection.horizontal,
+                  background: Container(
+                    color: const Color.fromARGB(255, 245, 3, 3),
+                    height: 60,
+                    child: Text(
+                      'DELETE',
+                      textAlign: TextAlign.right,
+                    ),
+                  ),
+                  onDismissed: (direction) {
+                    FirebaseFirestore.instance
+                        .collection('books')
+                        .doc(document.id)
+                        .delete();
+                  },
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(document['author']),
+                          Text(document['rating'].toString()),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(document['title']),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                Text(document['title']),
                 SizedBox(height: 20),
               ],
             ],
