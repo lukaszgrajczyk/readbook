@@ -27,7 +27,6 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('login'),
-              // Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
               SizedBox(height: 20),
               TextField(
                 controller: widget.emailController,
@@ -52,9 +51,6 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 40),
               Text(errorMessage),
               SizedBox(height: 20),
-
-              //Obsługa błędów do poprawy -zamieszać z ifami elsami i {} ...[]
-
               if (isCreatingAccount == false)
                 ElevatedButton(
                   onPressed: () async {
@@ -73,7 +69,6 @@ class _LoginPageState extends State<LoginPage> {
                     isCreatingAccount ? 'Zarejestruj' : 'Zaloguj',
                   ),
                 ),
-
               if (isCreatingAccount == true)
                 ElevatedButton(
                   onPressed: () async {
@@ -91,7 +86,6 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
                 ),
-
               if (isCreatingAccount == false)
                 TextButton(
                   onPressed: () {
@@ -105,7 +99,6 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: Text('utwórz konto'),
                 ),
-
               if (isCreatingAccount == true)
                 TextButton(
                   onPressed: () {

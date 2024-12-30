@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
 
 class BookReview extends StatelessWidget {
@@ -16,25 +15,15 @@ class BookReview extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return CircularProgressIndicator(); //isLoading
         }
         if (snapshot.hasError) {
           return Center(
-            child: Text("something went wrong"),
+            child: Text("something went wrong"), //error
           );
         }
 
-        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Center(
-            child: Text('Brak danych'),
-          );
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text('Loading');
-        }
-
-        final documents = snapshot.data!.docs;
+        final documents = snapshot.data!.docs; //1
 
         return Padding(
           padding: const EdgeInsets.all(15.0),
