@@ -49,6 +49,15 @@ class BookReviewCubit extends Cubit<BookReviewState> {
           ),
         );
       },
+      onError: (error) {
+        emit(
+          BookReviewState(
+            documents: [],
+            isLoading: false,
+            errorMessage: error.toString(),
+          ),
+        );
+      },
     );
   }
 }
