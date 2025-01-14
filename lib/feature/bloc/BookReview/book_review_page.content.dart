@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:readbook/feature/bloc/BookReview/cubit/book_review_cubit.dart';
 
 class BookReview extends StatelessWidget {
   const BookReview({
@@ -8,68 +10,71 @@ class BookReview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: FirebaseFirestore.instance
-          .collection('books')
-          .orderBy('rating', descending: true)
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); //isLoading
-        }
-        if (snapshot.hasError) {
-          return Center(
-            child: Text("something went wrong"), //error
-          );
-        }
+    return BlocProvider(
+      create: (context) => BookReviewCubit()..start(),
+      child: BlocBuilder<BookReviewCubit, BookReviewState>(
+        builder: (context, state) {
+          state.documents;
 
-        final documents = snapshot.data!.docs; //1
+          if (state.isLoading == true) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state.errorMessage.isNotEmpty) {
+            return Center(
+              child: Text("something went wrong"),
+            );
+          }
 
-        return Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: ListView(
-            children: [
-              for (final document in documents) ...[
-                Dismissible(
-                  key: ValueKey(document.id),
-                  direction: DismissDirection.horizontal,
-                  background: Container(
-                    color: const Color.fromARGB(255, 245, 3, 3),
-                    height: 60,
-                    child: Text(
-                      'DELETE',
-                      textAlign: TextAlign.right,
+          final documents = state.documents;
+
+          return Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: ListView(
+              children: [
+                for (final document in documents) ...[
+                  Dismissible(
+                    key: ValueKey(document.id),
+                    direction: DismissDirection.horizontal,
+                    background: Container(
+                      color: const Color.fromARGB(255, 245, 3, 3),
+                      height: 60,
+                      child: Text(
+                        'DELETE',
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                    onDismissed: (direction) {
+                      FirebaseFirestore.instance
+                          .collection('books')
+                          .doc(document.id)
+                          .delete();
+                    },
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(document['author']),
+                            Text(document['rating'].toString()),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(document['title']),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  onDismissed: (direction) {
-                    FirebaseFirestore.instance
-                        .collection('books')
-                        .doc(document.id)
-                        .delete();
-                  },
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(document['author']),
-                          Text(document['rating'].toString()),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(document['title']),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20),
+                  SizedBox(height: 20),
+                ],
               ],
-            ],
-          ),
-        );
-      },
+            ),
+          );
+        },
+      ),
     );
   }
 }

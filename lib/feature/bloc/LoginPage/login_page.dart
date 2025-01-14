@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('login'),
+              Text('Login'),
               SizedBox(height: 20),
               TextField(
                 controller: widget.emailController,
