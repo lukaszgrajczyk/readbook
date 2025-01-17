@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readbook/feature/bloc/BookReview/cubit/book_review_cubit.dart';
@@ -46,10 +46,9 @@ class BookReview extends StatelessWidget {
                       ),
                     ),
                     onDismissed: (direction) {
-                      FirebaseFirestore.instance
-                          .collection('books')
-                          .doc(document.id)
-                          .delete();
+                      context
+                          .read<BookReviewCubit>()
+                          .deleteDocument(document.id);
                     },
                     child: Column(
                       children: [
