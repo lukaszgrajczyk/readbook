@@ -37,35 +37,30 @@ class BookReviewCubit extends Cubit<BookReviewState> {
         .collection('books')
         .orderBy('rating', descending: true)
         .snapshots()
-        .listen(
-      (data) {
-        emit(
-          BookReviewState(
-            documents: data.docs,
-            isLoading: false,
-            errorMessage: '',
-          ),
-        );
-      },
-      onError: (error) {
-        emit(
-          BookReviewState(
-            documents: [],
-            isLoading: false,
-            errorMessage: error.toString(),
-          ),
-        );
-      },
-    );
+        .listen((data) {
+      emit(
+        BookReviewState(
+          documents: data.docs,
+          isLoading: false,
+          errorMessage: '',
+        ),
+      );
+    }, onError: (error) {
+      emit(BookReviewState(
+        documents: [],
+        isLoading: false,
+        errorMessage: error.toString(),
+      ));
+    });
+  }
+
+  void deleteDocument(String id) {
+    FirebaseFirestore.instance.collection('books').doc(id).delete();
   }
 
   @override
-  Future<void> close() {
-    _subscription?.cancel();
+  Future<void> close() async {
+    await _subscription?.cancel();
     return super.close();
-  }
-
-  void deleteDocument(String document) async {
-    await FirebaseFirestore.instance.collection('books').doc(document).delete();
   }
 }
