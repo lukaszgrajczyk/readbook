@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:meta/meta.dart';
 part 'book_review_state.dart';
 
@@ -21,10 +21,6 @@ class BookReviewCubit extends Cubit<BookReviewState> {
         isLoading: true,
         errorMessage: '',
       ),
-    );
-
-    await Future.delayed(
-      const Duration(seconds: 5),
     );
 
     emit(
@@ -59,5 +55,9 @@ class BookReviewCubit extends Cubit<BookReviewState> {
         );
       },
     );
+  }
+
+  void deleteDocument(String document) async {
+    await FirebaseFirestore.instance.collection('books').doc(document).delete();
   }
 }
