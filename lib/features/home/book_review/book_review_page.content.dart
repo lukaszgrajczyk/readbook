@@ -1,7 +1,7 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:readbook/feature/bloc/BookReview/cubit/book_review_cubit.dart';
+import 'package:readbook/features/home/book_review/cubit/book_review_cubit.dart';
 
 class BookReview extends StatelessWidget {
   const BookReview({
