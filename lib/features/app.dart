@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readbook/app/cubit/root_page_cubit.dart';
@@ -30,22 +29,16 @@ class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RootPageCubit(),
-      child: BlocBuilder<RootPageCubit, RootPageState>(
-        builder: (context, state) {
-          return StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              final user = snapshot.data;
-              if (user == null) {
-                return LoginPage();
-              }
+      create: (context) => RootPageCubit()..start(),
+      child:
+          BlocBuilder<RootPageCubit, RootPageState>(builder: (context, state) {
+        final user = state.user;
+        if (user == null) {
+          return LoginPage();
+        }
 
-              return HomePage(user: user);
-            },
-          );
-        },
-      ),
+        return HomePage(user: user);
+      }),
     );
   }
 }
