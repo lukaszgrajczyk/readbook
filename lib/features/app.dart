@@ -42,26 +42,3 @@ class RootPage extends StatelessWidget {
     );
   }
 }
-
-// @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (context) => RootP(),
-//       child: BlocBuilder<RootP, RootPageState>(
-//         builder: (context, state) {
-//           return StreamBuilder<User?>(
-//             stream: FirebaseAuth.instance.authStateChanges(),
-//             builder: (context, snapshot) {
-//               final user = snapshot.data;
-//               if (user == null) {
-//                 return LoginPage();
-//               }
-
-//               return HomePage(user: user);
-//             },
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }

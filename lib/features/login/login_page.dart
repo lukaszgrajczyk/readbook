@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:readbook/features/login/cubit/login_page_cubit.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({
@@ -28,47 +30,24 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Text('Login'),
               SizedBox(height: 20),
-              TextField(
-                controller: widget.emailController,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.email),
-                  hintText: 'name@example.com',
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
-                ),
-              ),
+              EmailWidget(widget: widget),
               SizedBox(height: 20),
-              TextField(
-                controller: widget.passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.lock_outline_rounded),
-                  hintText: 'password',
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
-              ),
+              PasswordWidget(widget: widget),
               SizedBox(height: 40),
               Text(errorMessage),
               SizedBox(height: 20),
               if (isCreatingAccount == false)
                 ElevatedButton(
                   onPressed: () async {
-                    try {
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(
-                        email: widget.emailController.text,
-                        password: widget.passwordController.text,
-                      );
-                    } catch (error) {
-                      setState(() {
-                        errorMessage = error.toString();
-                      });
-                    }
+                    final email = widget.emailController.text;
+                    final password = widget.passwordController.text;
+                    context.read<LoginPageCubit>().signIn(email, password);
                   },
                   child: Text(
                     isCreatingAccount ? 'Zarejestruj' : 'Zaloguj',
                   ),
                 ),
+              //////////////////////////////////////
               if (isCreatingAccount == true)
                 ElevatedButton(
                   onPressed: () async {
@@ -86,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
                 ),
+              //////////////////////////////////////
               if (isCreatingAccount == false)
                 TextButton(
                   onPressed: () {
@@ -117,3 +97,69 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
+class EmailWidget extends StatelessWidget {
+  const EmailWidget({
+    super.key,
+    required this.widget,
+  });
+
+  final LoginPage widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: widget.emailController,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.email),
+        hintText: 'name@example.com',
+        labelText: 'Email',
+        border: OutlineInputBorder(),
+      ),
+    );
+  }
+}
+
+class PasswordWidget extends StatelessWidget {
+  const PasswordWidget({
+    super.key,
+    required this.widget,
+  });
+
+  final LoginPage widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: widget.passwordController,
+      obscureText: true,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.lock_outline_rounded),
+        hintText: 'password',
+        labelText: 'Password',
+        border: OutlineInputBorder(),
+      ),
+    );
+  }
+}
+
+
+
+//  if (isCreatingAccount == false)
+//                 ElevatedButton(
+//                   onPressed: () async {
+//                     try {
+//                       await FirebaseAuth.instance.signInWithEmailAndPassword(
+//                         email: widget.emailController.text,
+//                         password: widget.passwordController.text,
+//                       );
+//                     } catch (error) {
+//                       setState(() {
+//                         errorMessage = error.toString();
+//                       });
+//                     }
+//                   },
+//                   child: Text(
+//                     isCreatingAccount ? 'Zarejestruj' : 'Zaloguj',
+//                   ),
+//                 ),

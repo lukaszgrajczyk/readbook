@@ -18,20 +18,38 @@ class RootPageCubit extends Cubit<RootPageState> {
 
   StreamSubscription? _subscription;
 
+  Future<void> signOut() async {
+    {
+      await FirebaseAuth.instance.signOut();
+    }
+  }
+
   Future<void> start() async {
     emit(
-      RootPageState(user: null, isLoading: true, errorMessage: ''),
+      RootPageState(
+        user: null,
+        isLoading: true,
+        errorMessage: '',
+      ),
     );
 
     _subscription = FirebaseAuth.instance.authStateChanges().listen(
       (User? user) {
         emit(
-          RootPageState(user: user, isLoading: false, errorMessage: ''),
+          RootPageState(
+            user: user,
+            isLoading: false,
+            errorMessage: '',
+          ),
         );
       },
       onError: (error) {
         emit(
-          RootPageState(user: null, isLoading: false, errorMessage: ''),
+          RootPageState(
+            user: null,
+            isLoading: false,
+            errorMessage: '',
+          ),
         );
       },
     );
