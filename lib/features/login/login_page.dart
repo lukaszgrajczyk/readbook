@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readbook/app/cubit/root_page_cubit.dart';
@@ -38,24 +39,22 @@ class _LoginPageState extends State<LoginPage> {
               if (isCreatingAccount == false)
                 ElevatedButton(
                   onPressed: () async {
-                    final email = widget.emailController.text;
-                    final password = widget.passwordController.text;
                     try {
-                      await context
-                          .read<RootPageCubit>()
-                          .logIn(email, password);
-                    } catch (error) {
-                      setState(
-                        () {
-                          errorMessage = error.toString();
-                        },
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: widget.emailController.text,
+                        password: widget.passwordController.text,
                       );
+                    } catch (error) {
+                      setState(() {
+                        errorMessage = error.toString();
+                      });
                     }
                   },
                   child: Text(
                     isCreatingAccount ? 'Zarejestruj' : 'Zaloguj',
                   ),
                 ),
+              //////////////////////////////////////
               if (isCreatingAccount == true)
                 ElevatedButton(
                   onPressed: () async {
@@ -75,12 +74,8 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     }
                   },
-                  child: Text(
-                    isCreatingAccount ? 'Zarejestruj' : 'Zaloguj',
-                  ),
-                ), //////////////////////////////////////
-
-              //////////////////////////////////////
+                  child: Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
+                ),
               if (isCreatingAccount == false)
                 TextButton(
                   onPressed: () {
@@ -159,3 +154,24 @@ class PasswordWidget extends StatelessWidget {
     );
   }
 }
+
+
+
+//  if (isCreatingAccount == false)
+//                 ElevatedButton(
+//                   onPressed: () async {
+//                     try {
+//                       await FirebaseAuth.instance.signInWithEmailAndPassword(
+//                         email: widget.emailController.text,
+//                         password: widget.passwordController.text,
+//                       );
+//                     } catch (error) {
+//                       setState(() {
+//                         errorMessage = error.toString();
+//                       });
+//                     }
+//                   },
+//                   child: Text(
+//                     isCreatingAccount ? 'Zarejestruj' : 'Zaloguj',
+//                   ),
+//                 ),
