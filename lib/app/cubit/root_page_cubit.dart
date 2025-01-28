@@ -55,6 +55,30 @@ class RootPageCubit extends Cubit<RootPageState> {
     );
   }
 
+  Future<void> logIn(
+    String email,
+    String password,
+  ) async {
+    {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    }
+  }
+
+  Future<void> registerUser(
+    String email,
+    String password,
+  ) async {
+    {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    }
+  }
+
   @override
   Future<void> close() async {
     await _subscription?.cancel();

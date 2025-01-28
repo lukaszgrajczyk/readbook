@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:readbook/features/login/cubit/login_page_cubit.dart';
+import 'package:readbook/app/cubit/root_page_cubit.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({
@@ -41,30 +40,46 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () async {
                     final email = widget.emailController.text;
                     final password = widget.passwordController.text;
-                    context.read<LoginPageCubit>().signIn(email, password);
+                    try {
+                      await context
+                          .read<RootPageCubit>()
+                          .logIn(email, password);
+                    } catch (error) {
+                      setState(
+                        () {
+                          errorMessage = error.toString();
+                        },
+                      );
+                    }
                   },
                   child: Text(
                     isCreatingAccount ? 'Zarejestruj' : 'Zaloguj',
                   ),
                 ),
-              //////////////////////////////////////
               if (isCreatingAccount == true)
                 ElevatedButton(
                   onPressed: () async {
+                    final email = widget.emailController
+                        .text; //Loginpage.TextEditingController (emailController.text)  " przekazywany do RootCubit w zmiennej email"
+                    final password = widget.passwordController
+                        .text; //Loginpage.TextEditingController (passwordController.text)  " przekazywany do RootCubit w zmiennej password"
                     try {
-                      await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                        email: widget.emailController.text,
-                        password: widget.passwordController.text,
-                      );
+                      await context
+                          .read<RootPageCubit>()
+                          .registerUser(email, password);
                     } catch (error) {
-                      setState(() {
-                        errorMessage = error.toString();
-                      });
+                      setState(
+                        () {
+                          errorMessage = error.toString();
+                        },
+                      );
                     }
                   },
-                  child: Text(isCreatingAccount ? 'Zarejestruj' : 'Zaloguj'),
-                ),
+                  child: Text(
+                    isCreatingAccount ? 'Zarejestruj' : 'Zaloguj',
+                  ),
+                ), //////////////////////////////////////
+
               //////////////////////////////////////
               if (isCreatingAccount == false)
                 TextButton(
@@ -83,9 +98,11 @@ class _LoginPageState extends State<LoginPage> {
                 TextButton(
                   onPressed: () {
                     {
-                      setState(() {
-                        isCreatingAccount = false;
-                      });
+                      setState(
+                        () {
+                          isCreatingAccount = false;
+                        },
+                      );
                     }
                   },
                   child: Text('nie masz jeszcze konta?'),
@@ -142,24 +159,3 @@ class PasswordWidget extends StatelessWidget {
     );
   }
 }
-
-
-
-//  if (isCreatingAccount == false)
-//                 ElevatedButton(
-//                   onPressed: () async {
-//                     try {
-//                       await FirebaseAuth.instance.signInWithEmailAndPassword(
-//                         email: widget.emailController.text,
-//                         password: widget.passwordController.text,
-//                       );
-//                     } catch (error) {
-//                       setState(() {
-//                         errorMessage = error.toString();
-//                       });
-//                     }
-//                   },
-//                   child: Text(
-//                     isCreatingAccount ? 'Zarejestruj' : 'Zaloguj',
-//                   ),
-//                 ),
