@@ -54,14 +54,11 @@ class _LoginPageState extends State<LoginPage> {
                     isCreatingAccount ? 'Zarejestruj' : 'Zaloguj',
                   ),
                 ),
-              //////////////////////////////////////
               if (isCreatingAccount == true)
                 ElevatedButton(
                   onPressed: () async {
-                    final email = widget.emailController
-                        .text; //Loginpage.TextEditingController (emailController.text)  " przekazywany do RootCubit w zmiennej email"
-                    final password = widget.passwordController
-                        .text; //Loginpage.TextEditingController (passwordController.text)  " przekazywany do RootCubit w zmiennej password"
+                    final email = widget.emailController.text;
+                    final password = widget.passwordController.text;
                     try {
                       await context
                           .read<RootPageCubit>()
