@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:readbook/AddBookRevew/add_review_page_content.dart';
-import 'package:readbook/BookReview/book_review_page.content.dart';
-import 'package:readbook/MyAccount/my_account_page_content.dart';
+import 'package:readbook/features/home/add_book/add_book_page_content.dart';
+import 'package:readbook/features/home/book_review/book_review_page.content.dart';
+import 'package:readbook/features/home/my_account/my_account_page_content.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
