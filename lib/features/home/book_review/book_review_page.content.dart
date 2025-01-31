@@ -17,12 +17,12 @@ class BookReview extends StatelessWidget {
           state.documents;
 
           if (state.isLoading == true) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
           if (state.errorMessage.isNotEmpty) {
-            return Center(
+            return const Center(
               child: Text("something went wrong"),
             );
           }
@@ -40,7 +40,7 @@ class BookReview extends StatelessWidget {
                     background: Container(
                       color: const Color.fromARGB(255, 245, 3, 3),
                       height: 60,
-                      child: Text(
+                      child: const Text(
                         'DELETE',
                         textAlign: TextAlign.right,
                       ),
@@ -67,7 +67,7 @@ class BookReview extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ],
             ),

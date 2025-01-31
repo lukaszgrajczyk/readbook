@@ -28,14 +28,14 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Login'),
-              SizedBox(height: 20),
+              const Text('Login'),
+              const SizedBox(height: 20),
               EmailWidget(widget: widget),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               PasswordWidget(widget: widget),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Text(errorMessage),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               if (isCreatingAccount == false)
                 ElevatedButton(
                   onPressed: () async {
@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     }
                   },
-                  child: Text('utwórz konto'),
+                  child: const Text('utwórz konto'),
                 ),
               if (isCreatingAccount == true)
                 TextButton(
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     }
                   },
-                  child: Text('nie masz jeszcze konta?'),
+                  child: const Text('nie masz jeszcze konta?'),
                 ),
             ],
           ),
@@ -119,7 +119,7 @@ class EmailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: widget.emailController,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         prefixIcon: Icon(Icons.email),
         hintText: 'name@example.com',
         labelText: 'Email',
@@ -142,7 +142,7 @@ class PasswordWidget extends StatelessWidget {
     return TextField(
       controller: widget.passwordController,
       obscureText: true,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         prefixIcon: Icon(Icons.lock_outline_rounded),
         hintText: 'password',
         labelText: 'Password',

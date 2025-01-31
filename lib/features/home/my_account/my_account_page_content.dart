@@ -14,12 +14,12 @@ class MyAccount extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('jesteś zalogowany jako $email'),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               context.read<RootPageCubit>().signOut();
             },
-            child: Text('wyloguj'),
+            child: const Text('wyloguj'),
           ),
         ],
       ),

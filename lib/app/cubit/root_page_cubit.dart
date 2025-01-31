@@ -9,7 +9,7 @@ part 'root_page_state.dart';
 class RootPageCubit extends Cubit<RootPageState> {
   RootPageCubit()
       : super(
-          RootPageState(
+          const RootPageState(
             user: null,
             isLoading: false,
             errorMessage: '',
@@ -26,7 +26,7 @@ class RootPageCubit extends Cubit<RootPageState> {
 
   Future<void> start() async {
     emit(
-      RootPageState(
+      const RootPageState(
         user: null,
         isLoading: true,
         errorMessage: '',
@@ -45,7 +45,7 @@ class RootPageCubit extends Cubit<RootPageState> {
       },
       onError: (error) {
         emit(
-          RootPageState(
+          const RootPageState(
             user: null,
             isLoading: false,
             errorMessage: '',

@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Builder(builder: (context) {
         if (currentIndex == 0) {
-          return BookReview();
+          return const BookReview();
         }
         return Builder(builder: (context) {
           if (currentIndex == 1) {
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
               currentIndex = newIndex;
             });
           },
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.recent_actors_outlined),
               label: 'opinia',

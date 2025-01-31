@@ -34,14 +34,14 @@ class _AddBookReviewState extends State<AddBookReview> {
                   },
                 );
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.person_add_alt_1_rounded),
                 hintText: 'book Author',
                 labelText: 'Add book Author',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextField(
               onChanged: (newValue) {
                 setState(
@@ -50,14 +50,14 @@ class _AddBookReviewState extends State<AddBookReview> {
                   },
                 );
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.title_rounded),
                 hintText: 'Book title',
                 labelText: 'Add book title',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Slider(
               value: rating,
               onChanged: (newRating) {
@@ -68,13 +68,13 @@ class _AddBookReviewState extends State<AddBookReview> {
                 );
               },
               label: rating.toString(),
-              activeColor: Color.fromARGB(222, 187, 21, 21),
-              inactiveColor: Color.fromARGB(222, 223, 185, 223),
+              activeColor: const Color.fromARGB(222, 187, 21, 21),
+              inactiveColor: const Color.fromARGB(222, 223, 185, 223),
               min: 0.0,
               max: 6.0,
               divisions: 6,
             ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             ElevatedButton(
               onPressed: bookAuthor.isEmpty || bookTitle.isEmpty
                   ? null
@@ -88,7 +88,7 @@ class _AddBookReviewState extends State<AddBookReview> {
                       );
                       widget.onSave();
                     },
-              child: Text('dodaj opinie'),
+              child: const Text('dodaj opinie'),
             )
           ],
         ),

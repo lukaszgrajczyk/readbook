@@ -7,7 +7,7 @@ part 'book_review_state.dart';
 class BookReviewCubit extends Cubit<BookReviewState> {
   BookReviewCubit()
       : super(
-          BookReviewState(
+          const BookReviewState(
             documents: [],
             isLoading: false,
             errorMessage: '',
@@ -18,7 +18,7 @@ class BookReviewCubit extends Cubit<BookReviewState> {
 
   Future<void> start() async {
     emit(
-      BookReviewState(
+      const BookReviewState(
         documents: [],
         isLoading: true,
         errorMessage: '',
@@ -26,7 +26,7 @@ class BookReviewCubit extends Cubit<BookReviewState> {
     );
 
     emit(
-      BookReviewState(
+      const BookReviewState(
         documents: [],
         isLoading: false,
         errorMessage: '',
@@ -47,7 +47,7 @@ class BookReviewCubit extends Cubit<BookReviewState> {
       );
     }, onError: (error) {
       emit(BookReviewState(
-        documents: [],
+        documents: const [],
         isLoading: false,
         errorMessage: error.toString(),
       ));
